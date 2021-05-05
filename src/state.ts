@@ -18,3 +18,23 @@ export const sessionState = atom<{
     user: null
   }
 })
+
+export const loginDialogState = atom<{
+  open: boolean
+}>({
+  key: 'loginDialog',
+  default: {
+    open: false
+  }
+})
+
+export const snackbarState = atom<{
+  open: boolean
+  message: string
+}>({
+  key: 'snackbar',
+  default: {
+    open: false,
+    message: ''
+  }
+})

@@ -1,3 +1,4 @@
+import React from 'react'
 import { Box, Typography, TextField, Button } from '@material-ui/core'
 import { Link } from 'react-router-dom'
 import routes from './routes'
@@ -11,28 +12,9 @@ const Home = () => {
 
   return (
     <>
-      <AppBar
-        title='fullstrapp'
-        actions={
-          <Button
-            color='primary'
-            size='small'
-            component={Link}
-            to={routes.signin}
-            variant='contained'
-          >
-            Sign In
-          </Button>
-        }
-      />
       <Wrapper>
         <Typography paragraph variant='h5'>
           Welcome to your new app!
-        </Typography>
-
-        <Typography paragraph variant='h5'>
-          Don't forget to configure your firebase settings in{' '}
-          <code>/src/firebase/firebase.ts</code>
         </Typography>
 
         <Box mt={6}>
@@ -58,7 +40,7 @@ const Home = () => {
             helperText={errors.name?.message || ' '}
           />
           <Button type='submit' color='primary'>
-            Submit
+            Next
           </Button>
         </form>
       </Wrapper>
