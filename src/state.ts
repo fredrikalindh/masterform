@@ -21,10 +21,12 @@ export const sessionState = atom<{
 
 export const loginDialogState = atom<{
   open: boolean
+  signIn: boolean
 }>({
   key: 'loginDialog',
   default: {
-    open: false
+    open: false,
+    signIn: false
   }
 })
 

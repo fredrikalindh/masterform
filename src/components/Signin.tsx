@@ -5,11 +5,7 @@ import {
   Dialog,
   DialogProps,
   Button,
-  DialogTitle,
-  DialogActions,
   DialogContent,
-  DialogContentText,
-  TextField,
   Typography,
   Box
 } from '@material-ui/core'
@@ -17,7 +13,7 @@ import {
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles'
 import { useForm } from 'react-hook-form'
 
-import { Github as GitHubIcon } from 'mdi-material-ui'
+// import { Github as GitHubIcon } from 'mdi-material-ui'
 import { Google as GoogleIcon } from 'mdi-material-ui'
 
 const authProviders = [
@@ -26,26 +22,20 @@ const authProviders = [
     color: '#ea4335',
     icon: <GoogleIcon />,
     name: 'Google'
-  },
-  {
-    id: 'github.com',
-    color: '#24292e',
-    icon: <GitHubIcon />,
-    name: 'GitHub',
-    scopes: ['repo']
   }
+  // {
+  //   id: 'github.com',
+  //   color: '#24292e',
+  //   icon: <GitHubIcon />,
+  //   name: 'GitHub',
+  //   scopes: ['repo']
+  // }
 ]
-
-const initialState = {
-  email: '',
-  password: '',
-  confirmPassword: '',
-  username: ''
-}
 
 type Props = {
   open: boolean
   onClose: () => void
+  setSnackbar: (message: string) => void
 } & DialogProps
 
 type Inputs = {
@@ -86,7 +76,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 )
 
-const Signin = (dialogProps: Props) => {
+const Signin = ({ setSnackbar, ...dialogProps }: Props) => {
   const classes = useStyles()
 
   const [performingAction, setPerformingAction] = useState(false)
@@ -119,41 +109,20 @@ const Signin = (dialogProps: Props) => {
         await userDocRef.set({})
       }
       setPerformingAction(false)
+      dialogProps.onClose()
+      setSnackbar('Successfully authenticated with Google')
       // analytics.logEvent("login", {
       //   method: provider.id,
       // });
     } catch (error) {
       console.log(error)
-      // setErrors(error.message)
+      setSnackbar(error.message)
     }
   }
 
   const handleExited = () => {
-    // setUser(initialState);
+    reset()
   }
-
-  const handleKeyPress: React.KeyboardEventHandler = (
-    event: React.KeyboardEvent<HTMLDivElement>
-  ) => {
-    // const { email, password } = user;
-    // if (!email && !password) {
-    //   return;
-    // }
-    // const key = event.key;
-    // if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) {
-    //   return;
-    // }
-    // if (key === "Enter") {
-    //   if (email && !password) {
-    //     // this.sendSignInLinkToEmail();
-    //   } else {
-    //     // this.signIn();
-    //   }
-    // }
-  }
-  // const handleChange: React.ChangeEventHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   setInputs(prev => ({ ...prev, [event.target.id]: event.target.value }))
-  // }
 
   const onSubmit = async (data: Inputs) => {
     console.log('DATA', data)
@@ -168,11 +137,19 @@ const Signin = (dialogProps: Props) => {
           data.email,
           data.password
         )
+        if (!value.user || !value.user.uid) throw new Error('No user or uid')
+        const userRef = firestore.doc(`users/${value.user.uid}`)
+        const user = await userRef.get()
+        if (!user.exists) userRef.set({ email: data.email })
       }
       reset()
+      setSnackbar(
+        signIn ? 'Successfully logged in' : 'Successfully created account'
+      )
       setPerformingAction(false)
+      dialogProps.onClose()
     } catch (error) {
-      // setSnackbar(error.message)
+      setSnackbar(error.message)
       console.log(error.message)
       setPerformingAction(false)
     }
@@ -184,7 +161,6 @@ const Signin = (dialogProps: Props) => {
       disableBackdropClick={performingAction}
       disableEscapeKeyDown={performingAction}
       {...dialogProps}
-      onKeyPress={handleKeyPress}
       onExited={handleExited}
       PaperProps={{ style: { borderRadius: 0 } }}
     >
@@ -195,7 +171,7 @@ const Signin = (dialogProps: Props) => {
           display='flex'
           flexDirection='column'
           alignItems='center'
-          padding={3}
+          p={3}
         >
           <Button
             fullWidth

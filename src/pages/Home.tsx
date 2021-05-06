@@ -1,50 +1,40 @@
 import React from 'react'
-import { Box, Typography, TextField, Button } from '@material-ui/core'
-import { Link } from 'react-router-dom'
+import { Box, Typography, Container, Snackbar } from '@material-ui/core'
+import { Switch, Route, Redirect } from 'react-router-dom'
 import routes from './routes'
-import Wrapper from '../components/Wrapper'
-import AppBar from '../components/AppBar'
-import { useForm } from 'react-hook-form'
-import formErrorMessages from '../utils/formErrorMessages'
+import Signin from '../components/Signin'
+import HomeBar from '../components/HomeBar'
+import { useRecoilState } from 'recoil'
+import { loginDialogState, snackbarState } from '../state'
 
 const Home = () => {
-  const { register, errors, handleSubmit, reset } = useForm<{ name: string }>()
+  const [loginDialog, setLoginDialog] = useRecoilState(loginDialogState)
+  const [snackbar, setSnackbar] = useRecoilState(snackbarState)
 
   return (
-    <>
-      <Wrapper>
-        <Typography paragraph variant='h5'>
-          Welcome to your new app!
-        </Typography>
+    <Container>
+      <HomeBar />
+      <Signin
+        open={loginDialog.open}
+        onClose={() => setLoginDialog({ open: false, signIn: false })}
+        setSnackbar={message => setSnackbar({ open: true, message })}
+      />
+      <Snackbar
+        autoHideDuration={5000}
+        message={snackbar.message}
+        open={snackbar.open}
+        onClose={() => setSnackbar({ open: false, message: '' })}
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+      />
 
-        <Box mt={6}>
-          <Typography paragraph>
-            This is an example form using react-hook-form
+      <Box display='flex' justifyContent='center' alignItems='center'>
+        <Box width={700}>
+          <Typography paragraph variant='h1'>
+            Minds meeting minds is how great ideas meet the world
           </Typography>
         </Box>
-        <form
-          onSubmit={handleSubmit(vals => {
-            console.log(vals)
-            reset()
-          })}
-        >
-          <TextField
-            label='Enter your name'
-            name='name'
-            variant='outlined'
-            fullWidth
-            inputRef={register({
-              required: formErrorMessages.required
-            })}
-            error={!!errors.name}
-            helperText={errors.name?.message || ' '}
-          />
-          <Button type='submit' color='primary'>
-            Next
-          </Button>
-        </form>
-      </Wrapper>
-    </>
+      </Box>
+    </Container>
   )
 }
 

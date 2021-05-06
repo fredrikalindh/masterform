@@ -18,7 +18,7 @@ import MenuIcon from '@material-ui/icons/Menu'
 import { useSetRecoilState, useRecoilValue } from 'recoil'
 import { sessionState, loginDialogState } from '../state'
 
-import { auth } from '../firebase'
+import routes from '../pages/routes'
 
 type Props = {
   title?: string
@@ -45,32 +45,23 @@ const AppBar = (props: Props) => {
     <MaterialAppBar
       elevation={trigger ? 4 : 0}
       position='sticky'
-      color='secondary'
+      color='default'
     >
       <Toolbar>
-        {props.backTo && (
-          <IconButton
-            component={Link}
-            to={props.backTo}
-            color='inherit'
-            edge='start'
-          >
-            <ArrowBackIcon titleAccess='Navigate Back' />
-          </IconButton>
-        )}
-        {!props.backTo && (
-          <IconButton edge='start' color='inherit' aria-label='menu'>
-            <MenuIcon />
-          </IconButton>
-        )}
         <Box ml={3} flex='auto'>
           <Typography variant='h6'>masterform</Typography>
         </Box>
-        {/* {!session.user && <>
-          <Button onClick={() => setLoginDialog({ open: true, signIn: true })}>Sign In</Button>
-          <Button onClick={() => setLoginDialog({ open: true, signIn: false })} variant="contained" color="secondary">Sign Up</Button>
-        </>} */}
-        {/* <Button onClick={() => auth.signOut()} >Sign Out</Button> */}
+        <Link to={routes.home}>Info</Link>
+        <Button onClick={() => setLoginDialog({ open: true, signIn: true })}>
+          Sign In
+        </Button>
+        <Button
+          onClick={() => setLoginDialog({ open: true, signIn: false })}
+          variant='contained'
+          color='secondary'
+        >
+          Sign Up
+        </Button>
       </Toolbar>
     </MaterialAppBar>
   )
