@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { Route, Switch, Redirect } from 'react-router'
 
 import Home from './Home'
+import Info from './Info'
 import routes from './routes'
 
 import { useSetRecoilState, useRecoilState } from 'recoil'
@@ -9,11 +10,14 @@ import { sessionState, loginDialogState, snackbarState } from '../state'
 
 import firebase, { auth } from '../firebase'
 
+import Wrapper from '../components/Wrapper'
 import AppBar from '../components/AppBar'
-// import Signin from '../components/Signin'
+import HomeBar from '../components/HomeBar'
+import Signin from '../components/Signin'
 import LaunchScreen from '../components/LaunchScreen'
+import Footer from '../components/Footer'
 
-import Button from '@material-ui/core/Button'
+import Box from '@material-ui/core/Box'
 import Container from '@material-ui/core/Container'
 import Snackbar from '@material-ui/core/Snackbar'
 
@@ -37,23 +41,42 @@ const App = () => {
       }),
     [setSession]
   )
-  console.log('SESSION', session)
 
   if (session.isAuthenticating === true) {
     return <LaunchScreen />
   }
   if (!session.user) {
     return (
-      <Switch>
-        <Route path={routes.home} children={<Home />} />
-        <Route path={routes.info} children={<Home />} />
-        <Redirect to={routes.home} />
-      </Switch>
+      <div style={{ minHeight: '100vh', position: 'relative' }}>
+        <HomeBar />
+        <Signin
+          open={loginDialog.open}
+          onClose={() => setLoginDialog({ open: false, signIn: false })}
+          setSnackbar={message => setSnackbar({ open: true, message })}
+        />
+        <Snackbar
+          autoHideDuration={5000}
+          message={snackbar.message}
+          open={snackbar.open}
+          onClose={() => setSnackbar({ open: false, message: '' })}
+          anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+        />
+        <Container maxWidth='md'>
+          <Box mt={10} mb={4}>
+            <Switch>
+              <Route path={routes.home} children={<Home />} exact />
+              <Route path={routes.info} children={<Info />} />
+              <Redirect to={routes.home} />
+            </Switch>
+          </Box>
+        </Container>
+        <Footer />
+      </div>
     )
   }
 
   return (
-    <Container>
+    <Wrapper>
       <AppBar />
       <Snackbar
         autoHideDuration={5000}
@@ -68,7 +91,7 @@ const App = () => {
         </Route>
         <Redirect to={routes.app} />
       </Switch>
-    </Container>
+    </Wrapper>
   )
   // return (
   //   <Container>

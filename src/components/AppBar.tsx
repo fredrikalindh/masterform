@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react'
+import React, { useState } from 'react'
 import {
   AppBar as MaterialAppBar,
   Box,
@@ -7,16 +7,17 @@ import {
   IconButton,
   useScrollTrigger,
   Button,
-  ButtonGroup
+  Avatar,
+  MenuItem,
+  Menu
 } from '@material-ui/core'
 
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles'
 import ArrowBackIcon from '@material-ui/icons/ArrowBack'
+import AccountCircle from '@material-ui/icons/AccountCircle'
+
 import { Link } from 'react-router-dom'
 import MenuIcon from '@material-ui/icons/Menu'
-
-import { useSetRecoilState, useRecoilValue } from 'recoil'
-import { sessionState, loginDialogState } from '../state'
 
 import { auth } from '../firebase'
 
@@ -27,15 +28,30 @@ type Props = {
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    appbar: {}
+    root: {
+      flexGrow: 1
+    },
+    menuButton: {
+      marginRight: theme.spacing(2)
+    },
+    title: {
+      flexGrow: 1
+    }
   })
 )
 
 const AppBar = (props: Props) => {
   const classes = useStyles()
 
-  const setLoginDialog = useSetRecoilState(loginDialogState)
+  const [anchorEl, setAnchorEl] = useState<any>(null)
+  const open = Boolean(anchorEl)
 
+  const handleMenu = (event: any) => {
+    setAnchorEl(event.currentTarget)
+  }
+  const handleClose = () => {
+    setAnchorEl(null)
+  }
   const trigger = useScrollTrigger({
     disableHysteresis: true,
     threshold: 40
@@ -66,11 +82,35 @@ const AppBar = (props: Props) => {
         <Box ml={3} flex='auto'>
           <Typography variant='h6'>masterform</Typography>
         </Box>
-        {/* {!session.user && <>
-          <Button onClick={() => setLoginDialog({ open: true, signIn: true })}>Sign In</Button>
-          <Button onClick={() => setLoginDialog({ open: true, signIn: false })} variant="contained" color="secondary">Sign Up</Button>
-        </>} */}
-        {/* <Button onClick={() => auth.signOut()} >Sign Out</Button> */}
+        <div>
+          <IconButton
+            aria-label='account of current user'
+            aria-controls='menu-appbar'
+            aria-haspopup='true'
+            onClick={handleMenu}
+            color='inherit'
+          >
+            <AccountCircle />
+          </IconButton>
+          <Menu
+            id='menu-appbar'
+            anchorEl={anchorEl}
+            anchorOrigin={{
+              vertical: 'top',
+              horizontal: 'right'
+            }}
+            keepMounted
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'right'
+            }}
+            open={open}
+            onClose={handleClose}
+          >
+            <MenuItem onClick={handleClose}>Profile</MenuItem>
+            <MenuItem onClick={handleClose}>My account</MenuItem>
+          </Menu>
+        </div>
       </Toolbar>
     </MaterialAppBar>
   )
