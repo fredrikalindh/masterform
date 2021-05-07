@@ -9,7 +9,10 @@ const theme = createMuiTheme({
   palette: {
     // type: 'dark',
     primary: deepPurple,
-    secondary: deepOrange
+    secondary: grey
+  },
+  typography: {
+    fontFamily: 'Poppins, Roboto, Helvetica, sans-serif'
   },
   overrides: {
     MuiAppBar: {
