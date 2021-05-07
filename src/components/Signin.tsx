@@ -10,8 +10,13 @@ import {
   Box
 } from '@material-ui/core'
 
+import { useSetRecoilState } from 'recoil'
+import { loginDialogState } from '../state'
+
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles'
 import { useForm } from 'react-hook-form'
+
+import BlackButton from './BlackButton'
 
 // import { Github as GitHubIcon } from 'mdi-material-ui'
 import { Google as GoogleIcon } from 'mdi-material-ui'
@@ -34,6 +39,7 @@ const authProviders = [
 
 type Props = {
   open: boolean
+  signIn: boolean
   onClose: () => void
   setSnackbar: (message: string) => void
 } & DialogProps
@@ -76,12 +82,12 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 )
 
-const Signin = ({ setSnackbar, ...dialogProps }: Props) => {
+const Signin = ({ signIn, setSnackbar, ...dialogProps }: Props) => {
   const classes = useStyles()
 
   const [performingAction, setPerformingAction] = useState(false)
 
-  const [signIn, setSignIn] = useState(true)
+  const setLoginDialog = useSetRecoilState(loginDialogState)
 
   const { register, handleSubmit, reset, errors } = useForm<Inputs>()
 
@@ -173,16 +179,16 @@ const Signin = ({ setSnackbar, ...dialogProps }: Props) => {
           alignItems='center'
           p={3}
         >
-          <Button
+          <BlackButton
             fullWidth
             key={authProviders[0].id}
             variant='outlined'
             startIcon={authProviders[0].icon}
             onClick={() => signInWithGoogle()}
-            className={classes.button}
+            // className={classes.button}
           >
             Sign {signIn ? 'in' : 'up'} with Google
-          </Button>
+          </BlackButton>
           <Typography variant='caption' className={classes.text}>
             or
           </Typography>
@@ -217,15 +223,15 @@ const Signin = ({ setSnackbar, ...dialogProps }: Props) => {
                   : 'Password must be at least 7 characters.'}
               </Typography>
             )}
-            <Button
+            <BlackButton
               fullWidth
               variant='contained'
-              color='primary'
+              // color='primary'
               type='submit'
-              className={classes.containedButton}
+              // className={classes.containedButton}
             >
               {signIn ? 'Sign In' : 'Create account'}
-            </Button>
+            </BlackButton>
           </form>
           {signIn ? (
             <>
@@ -246,7 +252,7 @@ const Signin = ({ setSnackbar, ...dialogProps }: Props) => {
                 <Typography
                   variant='caption'
                   color='primary'
-                  onClick={() => setSignIn(false)}
+                  onClick={() => setLoginDialog({ open: true, signIn: false })}
                 >
                   Create one
                 </Typography>
@@ -258,7 +264,7 @@ const Signin = ({ setSnackbar, ...dialogProps }: Props) => {
               <Typography
                 variant='caption'
                 color='primary'
-                onClick={() => setSignIn(true)}
+                onClick={() => setLoginDialog({ open: true, signIn: true })}
               >
                 Log in
               </Typography>

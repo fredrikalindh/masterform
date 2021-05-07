@@ -3,6 +3,7 @@ import { Route, Switch, Redirect } from 'react-router'
 
 import Home from './Home'
 import Info from './Info'
+import Pricing from './Pricing'
 import routes from './routes'
 
 import { useSetRecoilState, useRecoilState } from 'recoil'
@@ -47,7 +48,7 @@ const App = () => {
   }
   if (!session.user) {
     return (
-      <div style={{ minHeight: '100vh', position: 'relative' }}>
+      <>
         <HomeBar />
         <Signin
           open={loginDialog.open}
@@ -64,19 +65,15 @@ const App = () => {
           onClose={() => setSnackbar({ open: false, message: '' })}
           anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
         />
-        <Container maxWidth='md'>
-          <Box mt={10} mb={4} minHeight='90vh'>
-            <Switch>
-              <Route path={routes.home} children={<Home />} exact />
-              <Route path={routes.info} children={<Info />} />
-              <Route path={routes.pricing} children={<div>PRICING</div>} />
-              <Route path={routes.tou} children={<div>TERMS OF USE</div>} />
-              <Redirect to={routes.home} />
-            </Switch>
-          </Box>
-        </Container>
+        <Switch>
+          <Route path={routes.home} children={<Home />} exact />
+          <Route path={routes.info} children={<Info />} />
+          <Route path={routes.pricing} children={<Pricing />} />
+          <Route path={routes.tou} children={<div>TERMS OF USE</div>} />
+          <Redirect to={routes.home} />
+        </Switch>
         <Footer />
-      </div>
+      </>
     )
   }
 

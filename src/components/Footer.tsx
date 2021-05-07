@@ -3,7 +3,8 @@ import React from 'react'
 import Grid from '@material-ui/core/Grid'
 // import useMediaQuery from '@material-ui/core/useMediaQuery'
 // import { makeStyles, createStyles, Theme } from '@material-ui/core/styles'
-// import Box from '@material-ui/core/Box'
+import Typography from '@material-ui/core/Typography'
+import Box from '@material-ui/core/Box'
 import Container from '@material-ui/core/Container'
 import Link from '@material-ui/core/Link'
 
@@ -17,6 +18,36 @@ import { Github as GitHubIcon } from 'mdi-material-ui'
 import { Instagram as InstagramIcon } from 'mdi-material-ui'
 import { DevTo as DevToIcon } from 'mdi-material-ui'
 import { Linkedin as LinkedinIcon } from 'mdi-material-ui'
+
+import { makeStyles, createStyles, Theme } from '@material-ui/core/styles'
+
+function Copyright() {
+  return (
+    <Typography variant='body2' color='textSecondary' align='center'>
+      {'Copyright © '}
+      <Link color='inherit' href='https://papapal.me/'>
+        Your Website
+      </Link>{' '}
+      {new Date().getFullYear()}
+      {'.'}
+    </Typography>
+  )
+}
+
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    footer: {
+      borderTop: `1px solid ${theme.palette.divider}`,
+      marginTop: theme.spacing(8),
+      paddingTop: theme.spacing(3),
+      paddingBottom: theme.spacing(3),
+      [theme.breakpoints.up('sm')]: {
+        paddingTop: theme.spacing(6),
+        paddingBottom: theme.spacing(6)
+      }
+    }
+  })
+)
 
 type ListItemData = {
   title: string
@@ -98,12 +129,13 @@ const FooterContent: ListTitleData[] = [
 ]
 
 const Footer = () => {
+  const classes = useStyles()
   // const isMobile = useMediaQuery((theme: Theme) => theme.breakpoints.down('xs'))
   // if (isMobile) return null;
 
   return (
-    <Container maxWidth='md'>
-      <Grid container spacing={1}>
+    <Container maxWidth='md' component='footer' className={classes.footer}>
+      <Grid container spacing={4} justify='space-evenly'>
         {FooterContent.map(column => (
           <Grid item xs={6} sm={4} key={column.title}>
             <List subheader={<ListSubheader>{column.title}</ListSubheader>}>
@@ -122,6 +154,9 @@ const Footer = () => {
           </Grid>
         ))}
       </Grid>
+      <Box mt={5}>
+        <Copyright />
+      </Box>
     </Container>
   )
 }
