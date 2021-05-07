@@ -51,7 +51,10 @@ const App = () => {
         <HomeBar />
         <Signin
           open={loginDialog.open}
-          onClose={() => setLoginDialog({ open: false, signIn: false })}
+          signIn={loginDialog.signIn}
+          onClose={() =>
+            setLoginDialog(prev => ({ open: false, signIn: prev.signIn }))
+          }
           setSnackbar={message => setSnackbar({ open: true, message })}
         />
         <Snackbar
@@ -62,10 +65,12 @@ const App = () => {
           anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
         />
         <Container maxWidth='md'>
-          <Box mt={10} mb={4}>
+          <Box mt={10} mb={4} minHeight='90vh'>
             <Switch>
               <Route path={routes.home} children={<Home />} exact />
               <Route path={routes.info} children={<Info />} />
+              <Route path={routes.pricing} children={<div>PRICING</div>} />
+              <Route path={routes.tou} children={<div>TERMS OF USE</div>} />
               <Redirect to={routes.home} />
             </Switch>
           </Box>

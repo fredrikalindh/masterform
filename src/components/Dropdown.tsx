@@ -11,6 +11,7 @@ import {
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles'
 
 import ArrowDownIcon from '@material-ui/icons/ArrowDropDown'
+import BlackButton from './BlackButton'
 
 type Props = {
   title: string
@@ -32,30 +33,35 @@ const Dropdown = (props: Props) => {
 
   return (
     <Box onMouseEnter={handleMenu} display='inline'>
-      <Button
+      <BlackButton
         // onClick={isMobile ? handleMenu : undefined}
         endIcon={<ArrowDownIcon />}
         aria-haspopup='true'
       >
         {props.title}
-      </Button>
+      </BlackButton>
       <Menu
         id='menu-appbar'
         // elevation={0}
         anchorEl={anchorEl}
-        anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'center'
-        }}
+        // anchorOrigin={{
+        //   vertical: 'bottom',
+        //   horizontal: 'center'
+        // }}
         keepMounted
-        transformOrigin={{
-          vertical: 'bottom',
-          horizontal: 'center'
-        }}
+        // transformOrigin={{
+        //   vertical: 'bottom',
+        //   horizontal: 'center'
+        // }}
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        {props.children}
+        {props.children.map((node: any, index: number) => (
+          <MenuItem onClick={handleClose} button key={index}>
+            {node}
+          </MenuItem>
+        ))}
+        {/* {props.children.map((node: any) => <MenuItem component={node} />)} */}
       </Menu>
     </Box>
   )

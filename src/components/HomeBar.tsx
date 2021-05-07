@@ -20,14 +20,12 @@ import ArrowDownIcon from '@material-ui/icons/ArrowDropDown'
 import ChevronRightIcon from '@material-ui/icons/ChevronRight'
 import Divider from '@material-ui/core/Divider'
 
-import MailIcon from '@material-ui/icons/Mail'
-
 import ListItem from '@material-ui/core/ListItem'
 import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemText from '@material-ui/core/ListItemText'
 import List from '@material-ui/core/List'
 
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import MenuIcon from '@material-ui/icons/Menu'
 
 import { useSetRecoilState, useRecoilValue } from 'recoil'
@@ -36,6 +34,7 @@ import { sessionState, loginDialogState } from '../state'
 import routes from '../pages/routes'
 
 import Dropdown from './Dropdown'
+import BlackButton from './BlackButton'
 
 type Props = {
   title?: string
@@ -51,15 +50,10 @@ const useStyles = makeStyles((theme: Theme) =>
       display: 'flex'
     },
     menuButton: {
-      marginRight: theme.spacing(2)
+      marginRight: theme.spacing(0)
     },
     title: {
       flexGrow: 1
-    },
-    signUp: {
-      // top: 2,
-      // position: "sticky",
-      marginRight: 10
     },
     appBar: {
       transition: theme.transitions.create(['margin', 'width'], {
@@ -92,34 +86,32 @@ const useStyles = makeStyles((theme: Theme) =>
       // necessary for content to be below app bar
       ...theme.mixins.toolbar,
       justifyContent: 'flex-end'
-    },
-    content: {
-      flexGrow: 1,
-      padding: theme.spacing(3),
-      transition: theme.transitions.create('margin', {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.leavingScreen
-      }),
-      marginLeft: -drawerWidth
-    },
-    contentShift: {
-      transition: theme.transitions.create('margin', {
-        easing: theme.transitions.easing.easeOut,
-        duration: theme.transitions.duration.enteringScreen
-      }),
-      marginLeft: 0
     }
+    // content: {
+    //   flexGrow: 1,
+    //   padding: theme.spacing(3),
+    //   transition: theme.transitions.create('margin', {
+    //     easing: theme.transitions.easing.sharp,
+    //     duration: theme.transitions.duration.leavingScreen
+    //   }),
+    //   marginLeft: -drawerWidth
+    // },
+    // contentShift: {
+    //   transition: theme.transitions.create('margin', {
+    //     easing: theme.transitions.easing.easeOut,
+    //     duration: theme.transitions.duration.enteringScreen
+    //   }),
+    //   marginLeft: 0
+    // }
   })
 )
 
 const HomeBar = (props: Props) => {
   const classes = useStyles()
 
-  const setLoginDialog = useSetRecoilState(loginDialogState)
+  const history = useHistory()
 
-  // const handleClose = () => {
-  //   setAnchorEl(null);
-  // };
+  const setLoginDialog = useSetRecoilState(loginDialogState)
 
   const isMobile = useMediaQuery((theme: Theme) => theme.breakpoints.down('xs'))
 
@@ -141,14 +133,12 @@ const HomeBar = (props: Props) => {
             <Typography variant='h6' className={classes.title}>
               masterform
             </Typography>
-            <Button
+            <BlackButton
               onClick={() => setLoginDialog({ open: true, signIn: false })}
               variant='contained'
-              color='secondary'
-              className={classes.signUp}
             >
               Sign Up
-            </Button>
+            </BlackButton>
             <IconButton
               color='inherit'
               aria-label='open drawer'
@@ -184,15 +174,6 @@ const HomeBar = (props: Props) => {
               </ListItem>
             ))}
           </List>
-          {/* <Divider />
-          <List>
-            {['All mail', 'Trash', 'Spam'].map((text, index) => (
-              <ListItem button key={text}>
-                <ListItemIcon><MailIcon /></ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItem>
-            ))}
-          </List> */}
         </Drawer>
       </>
     )
@@ -201,32 +182,32 @@ const HomeBar = (props: Props) => {
   return (
     <AppBar color='default' position='static' elevation={0}>
       <Toolbar>
-        <Typography variant='h6' className={classes.title}>
+        <Typography
+          variant='h6'
+          className={classes.title}
+          color='primary'
+          onClick={() => history.push(routes.home)}
+        >
           masterform
         </Typography>
         <Box>
           <Dropdown title='Products'>
-            <MenuItem>Profile</MenuItem>
-            <MenuItem>My account</MenuItem>
+            <Link to={routes.pricing}>Pricing</Link>
+            <Link to={routes.tou}>Terms of Use</Link>
           </Dropdown>
-          <Button
-            href={routes.info}
-            // href="/info"
-          >
-            Info
-          </Button>
+          <BlackButton href={routes.info}>Info</BlackButton>
 
-          <Button onClick={() => setLoginDialog({ open: true, signIn: true })}>
+          <BlackButton
+            onClick={() => setLoginDialog({ open: true, signIn: true })}
+          >
             Sign In
-          </Button>
-          <Button
+          </BlackButton>
+          <BlackButton
             onClick={() => setLoginDialog({ open: true, signIn: false })}
             variant='contained'
-            color='secondary'
-            className={classes.signUp}
           >
             Sign Up
-          </Button>
+          </BlackButton>
         </Box>
       </Toolbar>
     </AppBar>

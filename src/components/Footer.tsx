@@ -1,9 +1,10 @@
 import React from 'react'
 
 import Grid from '@material-ui/core/Grid'
-import useMediaQuery from '@material-ui/core/useMediaQuery'
-import { makeStyles, createStyles, Theme } from '@material-ui/core/styles'
-import Box from '@material-ui/core/Box'
+// import useMediaQuery from '@material-ui/core/useMediaQuery'
+// import { makeStyles, createStyles, Theme } from '@material-ui/core/styles'
+// import Box from '@material-ui/core/Box'
+import Container from '@material-ui/core/Container'
 import Link from '@material-ui/core/Link'
 
 import ListSubheader from '@material-ui/core/ListSubheader'
@@ -96,43 +97,15 @@ const FooterContent: ListTitleData[] = [
   }
 ]
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      width: '100vw',
-      // padding: "50px 20px",
-      bottom: 0,
-      // marginTop: 150,
-      [theme.breakpoints.up('sm')]: {
-        position: 'absolute'
-      }
-      // minHeight: 200
-    },
-    linkList: {
-      listStyle: 'none'
-    }
-  })
-)
-
 const Footer = () => {
-  const classes = useStyles()
   // const isMobile = useMediaQuery((theme: Theme) => theme.breakpoints.down('xs'))
   // if (isMobile) return null;
 
   return (
-    <Box
-      width='100vw'
-      py={2}
-      px={2}
-      className={classes.root}
-      display='flex'
-      flexDirection='column'
-      justifyContent='center'
-      alignItems='center'
-    >
+    <Container maxWidth='md'>
       <Grid container spacing={1}>
         {FooterContent.map(column => (
-          <Grid item xs={6} sm={4}>
+          <Grid item xs={6} sm={4} key={column.title}>
             <List subheader={<ListSubheader>{column.title}</ListSubheader>}>
               {column.links.map((link: any) => (
                 <ListItem
@@ -149,7 +122,7 @@ const Footer = () => {
           </Grid>
         ))}
       </Grid>
-    </Box>
+    </Container>
   )
 }
 
