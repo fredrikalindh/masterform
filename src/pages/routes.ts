@@ -3,6 +3,7 @@ const routes = {
   info: '/info',
   tou: '/termsofuse',
   pricing: '/pricing',
+  privacy: '/privacy',
   careers: '/careers',
   app: '/app'
 }

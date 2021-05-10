@@ -4,6 +4,7 @@ import { Route, Switch, Redirect } from 'react-router'
 import Home from './Home'
 import Info from './Info'
 import Pricing from './Pricing'
+import Privacy from './Privacy'
 import routes from './routes'
 
 import { useSetRecoilState, useRecoilState } from 'recoil'
@@ -69,6 +70,7 @@ const App = () => {
           <Route path={routes.home} children={<Home />} exact />
           <Route path={routes.info} children={<Info />} />
           <Route path={routes.pricing} children={<Pricing />} />
+          <Route path={routes.privacy} children={<Privacy />} />
           <Route path={routes.tou} children={<div>TERMS OF USE</div>} />
           <Redirect to={routes.home} />
         </Switch>
