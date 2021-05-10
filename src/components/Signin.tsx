@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import firebase, { auth, firestore } from '../firebase'
-import 'firebaseui/dist/firebaseui.css'
+// import 'firebaseui/dist/firebaseui.css'
 import {
   Dialog,
   DialogProps,
@@ -56,25 +56,21 @@ const useStyles = makeStyles((theme: Theme) =>
     input: {
       margin: '10px 0px',
       border: '3px solid',
-      padding: 10,
+      padding: theme.spacing(1),
       width: '100%',
-      borderRadius: 4,
+      borderRadius: 5,
       '&:focus': {
         borderColor: theme.palette.primary.main,
         outline: 'none'
       }
     },
     button: {
-      border: '3px solid',
-      textTransform: 'none',
-      marginTop: 20,
-      marginBottom: 10
+      marginTop: theme.spacing(2),
+      marginBottom: theme.spacing(1)
     },
     containedButton: {
-      textTransform: 'none',
-      backgroundColor: 'black',
-      marginTop: 10,
-      marginBottom: 30
+      // marginTop: theme.spacing(1),
+      marginBottom: theme.spacing(3)
     },
     text: {
       margin: '10px 0px'
@@ -185,7 +181,7 @@ const Signin = ({ signIn, setSnackbar, ...dialogProps }: Props) => {
             variant='outlined'
             startIcon={authProviders[0].icon}
             onClick={() => signInWithGoogle()}
-            // className={classes.button}
+            className={classes.button}
           >
             Sign {signIn ? 'in' : 'up'} with Google
           </BlackButton>
@@ -228,7 +224,7 @@ const Signin = ({ signIn, setSnackbar, ...dialogProps }: Props) => {
               variant='contained'
               // color='primary'
               type='submit'
-              // className={classes.containedButton}
+              className={classes.containedButton}
             >
               {signIn ? 'Sign In' : 'Create account'}
             </BlackButton>

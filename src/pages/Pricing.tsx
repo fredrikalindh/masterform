@@ -210,7 +210,7 @@ export default function Pricing() {
               <Typography variant='h5'>Organization</Typography>
             </Grid>
             <Grid item sm={3}>
-              <Typography variant='h5'>Feature 1</Typography>
+              <Typography variant='subtitle1'>Feature 1</Typography>
             </Grid>
             <Grid item sm={3}>
               <Typography variant='h5'>✔️</Typography>
