@@ -29,7 +29,8 @@ type Props = {
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      flexGrow: 1
+      flexGrow: 1,
+      zIndex: theme.zIndex.drawer + 1
     },
     menuButton: {
       marginRight: theme.spacing(2)
@@ -62,6 +63,7 @@ const AppBar = (props: Props) => {
       elevation={trigger ? 4 : 0}
       position='sticky'
       color='secondary'
+      className={classes.root}
     >
       <Toolbar>
         {props.backTo && (
@@ -109,6 +111,7 @@ const AppBar = (props: Props) => {
           >
             <MenuItem onClick={handleClose}>Profile</MenuItem>
             <MenuItem onClick={handleClose}>My account</MenuItem>
+            <MenuItem onClick={() => auth.signOut()}>Sign Out</MenuItem>
           </Menu>
         </div>
       </Toolbar>
