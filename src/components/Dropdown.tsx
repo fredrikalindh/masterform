@@ -1,12 +1,6 @@
-import React from 'react'
-import {
-  Button,
-  MenuItem,
-  Menu,
-  useMediaQuery,
-  Container,
-  Box
-} from '@material-ui/core'
+import React, { useState } from 'react'
+import { Box, List, ListItem } from '@material-ui/core'
+
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles'
 
 import ArrowDownIcon from '@material-ui/icons/ArrowDropDown'
@@ -25,26 +19,50 @@ const useStyles = makeStyles((theme: Theme) =>
       borderRadius: 0,
       // position: "relative",
       marginTop: 10
+    },
+    root: {
+      paddingBottom: 20
+      // overflow: "display"
+    },
+    menu: {
+      position: 'absolute',
+      border: '3px solid black',
+      width: '100%',
+      minWidth: 150,
+      left: -20,
+      right: 0,
+      // padding: 10,
+      listStyle: 'none'
+    },
+    hidden: {
+      display: 'none'
     }
   })
 )
 
 const Dropdown = (props: Props) => {
   const classes = useStyles()
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
+
+  const [open, setOpen] = useState(false)
 
   const handleMenu = (event: React.MouseEvent<HTMLElement, any>) => {
-    setAnchorEl(event.currentTarget)
+    setOpen(true)
   }
 
   const handleClose = () => {
-    setAnchorEl(null)
+    setOpen(false)
   }
 
-  const isMobile = useMediaQuery((theme: Theme) => theme.breakpoints.down('xs'))
+  // const isMobile = useMediaQuery((theme: Theme) => theme.breakpoints.down('xs'))
 
   return (
-    <Box onMouseEnter={handleMenu} display='inline'>
+    <Box
+      onMouseEnter={handleMenu}
+      onMouseLeave={() => setOpen(false)}
+      display='inline'
+      position='relative'
+      className={classes.root}
+    >
       <BlackButton
         // onClick={isMobile ? handleMenu : undefined}
         endIcon={<ArrowDownIcon />}
@@ -52,26 +70,15 @@ const Dropdown = (props: Props) => {
       >
         {props.title}
       </BlackButton>
-      <Menu
-        id='menu-appbar'
-        anchorEl={anchorEl}
-        // keepMounted
-        getContentAnchorEl={null}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-        transformOrigin={{ vertical: 'top', horizontal: 'center' }}
-        open={Boolean(anchorEl)}
-        onClose={handleClose}
-        classes={{
-          paper: classes.paper
-        }}
-      >
-        {props.children.map((node: any, index: number) => (
-          <MenuItem onClick={handleClose} button key={index}>
-            {node}
-          </MenuItem>
-        ))}
-        {/* {props.children.map((node: any) => <MenuItem component={node} />)} */}
-      </Menu>
+      <Box className={open ? classes.menu : classes.hidden}>
+        <List>
+          {props.children.map((node: any, index: number) => (
+            <ListItem onClick={handleClose} key={index}>
+              {node}
+            </ListItem>
+          ))}
+        </List>
+      </Box>
     </Box>
   )
 }

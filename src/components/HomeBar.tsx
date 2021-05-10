@@ -11,7 +11,12 @@ import {
   MenuItem,
   Menu,
   useMediaQuery,
-  Link
+  Link,
+  Divider,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  List
 } from '@material-ui/core'
 import clsx from 'clsx'
 
@@ -19,12 +24,6 @@ import { makeStyles, createStyles, Theme } from '@material-ui/core/styles'
 import ArrowBackIcon from '@material-ui/icons/ArrowBack'
 import ArrowDownIcon from '@material-ui/icons/ArrowDropDown'
 import ChevronRightIcon from '@material-ui/icons/ChevronRight'
-import Divider from '@material-ui/core/Divider'
-
-import ListItem from '@material-ui/core/ListItem'
-import ListItemIcon from '@material-ui/core/ListItemIcon'
-import ListItemText from '@material-ui/core/ListItemText'
-import List from '@material-ui/core/List'
 
 import { useHistory } from 'react-router-dom'
 import MenuIcon from '@material-ui/icons/Menu'
@@ -196,11 +195,15 @@ const HomeBar = (props: Props) => {
         </Typography>
         <nav>
           <Dropdown title='Products'>
+            <Link href={routes.privacy}>Privacy</Link>
             <Link href={routes.pricing}>Pricing</Link>
             <Link href={routes.tou}>Terms of Use</Link>
           </Dropdown>
           <BlackButton href={routes.info} className={classes.link}>
             Info
+          </BlackButton>
+          <BlackButton href={routes.contact} className={classes.link}>
+            Contact
           </BlackButton>
 
           <BlackButton
