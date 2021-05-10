@@ -10,7 +10,8 @@ import {
   Drawer,
   MenuItem,
   Menu,
-  useMediaQuery
+  useMediaQuery,
+  Link
 } from '@material-ui/core'
 import clsx from 'clsx'
 
@@ -25,7 +26,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemText from '@material-ui/core/ListItemText'
 import List from '@material-ui/core/List'
 
-import { Link, useHistory } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 import MenuIcon from '@material-ui/icons/Menu'
 
 import { useSetRecoilState, useRecoilValue } from 'recoil'
@@ -86,6 +87,9 @@ const useStyles = makeStyles((theme: Theme) =>
       // necessary for content to be below app bar
       ...theme.mixins.toolbar,
       justifyContent: 'flex-end'
+    },
+    link: {
+      margin: theme.spacing(1, 1.5)
     }
     // content: {
     //   flexGrow: 1,
@@ -190,28 +194,54 @@ const HomeBar = (props: Props) => {
         >
           masterform
         </Typography>
-        <Box>
+        <nav>
           <Dropdown title='Products'>
-            <Link to={routes.pricing}>Pricing</Link>
-            <Link to={routes.tou}>Terms of Use</Link>
+            <Link href={routes.pricing}>Pricing</Link>
+            <Link href={routes.tou}>Terms of Use</Link>
           </Dropdown>
-          <BlackButton href={routes.info}>Info</BlackButton>
+          <BlackButton href={routes.info} className={classes.link}>
+            Info
+          </BlackButton>
 
           <BlackButton
+            className={classes.link}
             onClick={() => setLoginDialog({ open: true, signIn: true })}
           >
             Sign In
           </BlackButton>
           <BlackButton
+            className={classes.link}
             onClick={() => setLoginDialog({ open: true, signIn: false })}
             variant='contained'
           >
             Sign Up
           </BlackButton>
-        </Box>
+        </nav>
       </Toolbar>
     </AppBar>
   )
 }
 
 export default HomeBar
+
+// <AppBar position="static" color="default" elevation={0} className={classes.appBar}>
+//       <Toolbar className={classes.toolbar}>
+//         <Typography variant="h6" color="inherit" noWrap className={classes.toolbarTitle}>
+//           Company name
+//           </Typography>
+//         <nav>
+//           <Link variant="button" color="textPrimary" href="#" className={classes.link}>
+//             Features
+//             </Link>
+//           <Link variant="button" color="textPrimary" href="#" className={classes.link}>
+//             Enterprise
+//             </Link>
+//           <Link variant="button" color="textPrimary" href="#" className={classes.link}>
+//             Support
+//             </Link>
+//         </nav>
+//         <Button href="#" color="primary" variant="outlined" className={classes.link}>
+//           Login
+//           </Button>
+//       </Toolbar>
+//     </AppBar>

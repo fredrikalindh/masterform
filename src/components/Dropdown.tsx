@@ -7,7 +7,6 @@ import {
   Container,
   Box
 } from '@material-ui/core'
-
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles'
 
 import ArrowDownIcon from '@material-ui/icons/ArrowDropDown'
@@ -18,7 +17,20 @@ type Props = {
   children: any
 }
 
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    paper: {
+      boxShadow: 'none',
+      border: '3px solid black',
+      borderRadius: 0,
+      // position: "relative",
+      marginTop: 10
+    }
+  })
+)
+
 const Dropdown = (props: Props) => {
+  const classes = useStyles()
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
 
   const handleMenu = (event: React.MouseEvent<HTMLElement, any>) => {
@@ -42,19 +54,16 @@ const Dropdown = (props: Props) => {
       </BlackButton>
       <Menu
         id='menu-appbar'
-        // elevation={0}
         anchorEl={anchorEl}
-        // anchorOrigin={{
-        //   vertical: 'bottom',
-        //   horizontal: 'center'
-        // }}
-        keepMounted
-        // transformOrigin={{
-        //   vertical: 'bottom',
-        //   horizontal: 'center'
-        // }}
+        // keepMounted
+        getContentAnchorEl={null}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+        transformOrigin={{ vertical: 'top', horizontal: 'center' }}
         open={Boolean(anchorEl)}
         onClose={handleClose}
+        classes={{
+          paper: classes.paper
+        }}
       >
         {props.children.map((node: any, index: number) => (
           <MenuItem onClick={handleClose} button key={index}>

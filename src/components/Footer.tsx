@@ -133,19 +133,43 @@ const Footer = () => {
   // const isMobile = useMediaQuery((theme: Theme) => theme.breakpoints.down('xs'))
   // if (isMobile) return null;
 
+  // return (
+  // 	<Container maxWidth="md" component="footer" className={classes.footer}>
+  // 		<Grid container spacing={4} justify="space-evenly">
+  // 			{FooterContent.map((footer) => (
+  // 				<Grid item xs={6} sm={3} key={footer.title}>
+  // 					<Typography variant="h6" color="textPrimary" gutterBottom>
+  // 						{footer.title}
+  // 					</Typography>
+  // 					<ul>
+  // 						{footer.links.map((item) => (
+  // 							<li key={item.title}>
+  // 								{!!item.icon && item.icon}
+  // 								<Link href={item.to} variant="subtitle1" color="textSecondary" >
+  // 									{item.title}
+  // 								</Link>
+  // 							</li>
+  // 						))}
+  // 					</ul>
+  // 				</Grid>
+  // 			))}
+  // 		</Grid>
+  // 		<Box mt={5}>
+  // 			<Copyright />
+  // 		</Box>
+  // 	</Container>
+  // )
   return (
     <Container maxWidth='md' component='footer' className={classes.footer}>
       <Grid container spacing={4} justify='space-evenly'>
         {FooterContent.map(column => (
           <Grid item xs={6} sm={4} key={column.title}>
-            <List subheader={<ListSubheader>{column.title}</ListSubheader>}>
+            <Typography variant='h6' color='textPrimary' gutterBottom>
+              {column.title}
+            </Typography>
+            <List>
               {column.links.map((link: any) => (
-                <ListItem
-                  button
-                  key={link.title}
-                  component={Link}
-                  href={link.to}
-                >
+                <ListItem key={link.title} component={Link} href={link.to}>
                   {link.icon && <ListItemIcon>{link.icon}</ListItemIcon>}
                   <ListItemText primary={link.title} />
                 </ListItem>

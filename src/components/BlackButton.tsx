@@ -7,7 +7,9 @@ const useStyles = makeStyles((theme: Theme) =>
     root: {
       // height: 48,
       // padding: '0 30px',
-      borderRadius: 3
+      borderRadius: 5,
+      marginTop: theme.spacing(1),
+      marginBottom: theme.spacing(1)
     },
     contained: {
       backgroundColor: 'black',
