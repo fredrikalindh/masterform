@@ -5,6 +5,7 @@ import Home from './Home'
 import Info from './Info'
 import Pricing from './Pricing'
 import Privacy from './Privacy'
+import Contact from './Contact'
 import routes from './routes'
 
 import { useSetRecoilState, useRecoilState } from 'recoil'
@@ -22,6 +23,7 @@ import Footer from '../components/Footer'
 import Box from '@material-ui/core/Box'
 import Container from '@material-ui/core/Container'
 import Snackbar from '@material-ui/core/Snackbar'
+import Dashboard from './Dashboard'
 
 const App = () => {
   const [session, setSession] = useRecoilState(sessionState)
@@ -71,6 +73,7 @@ const App = () => {
           <Route path={routes.info} children={<Info />} />
           <Route path={routes.pricing} children={<Pricing />} />
           <Route path={routes.privacy} children={<Privacy />} />
+          <Route path={routes.contact} children={<Contact />} />
           <Route path={routes.tou} children={<div>TERMS OF USE</div>} />
           <Redirect to={routes.home} />
         </Switch>
@@ -80,50 +83,23 @@ const App = () => {
   }
 
   return (
-    <Wrapper>
-      <AppBar />
+    <>
       <Snackbar
         autoHideDuration={5000}
         message={snackbar.message}
         open={snackbar.open}
         onClose={() => setSnackbar({ open: false, message: '' })}
         anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+        color='primary'
       />
       <Switch>
         <Route path={routes.app}>
-          <Container>LOGGED IN</Container>
+          <Dashboard />
         </Route>
         <Redirect to={routes.app} />
       </Switch>
-    </Wrapper>
+    </>
   )
-  // return (
-  //   <Container>
-  //     <AppBar />
-  //     {!session.user && <Signin
-  //       open={loginDialog.open}
-  //       onClose={() => setLoginDialog({ open: false, signIn: false })}
-  //       setSnackbar={(message) => setSnackbar({ open: true, message })}
-  //     />}
-  //     <Snackbar
-  //       autoHideDuration={5000}
-  //       message={snackbar.message}
-  //       open={snackbar.open}
-  //       onClose={() => setSnackbar({ open: false, message: '' })}
-  //       anchorOrigin={{ vertical: "top", horizontal: "center" }}
-  //     />
-  //     <Switch>
-  //       <Route path={routes.home} exact>
-  //         {!session.user ? <Home /> : <Redirect to={routes.app} />}
-  //       </Route>
-  //       <Route path={routes.app}>
-  //         {session.user ? <Container>LOGGED IN</Container> : <Redirect to="/" />}
-  //       </Route>
-  //       <Route><div>Not found</div></Route>
-  //       {/* <Redirect to={routes.home} /> */}
-  //     </Switch>
-  //   </Container>
-  // )
 }
 
 export default App

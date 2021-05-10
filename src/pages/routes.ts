@@ -5,6 +5,7 @@ const routes = {
   pricing: '/pricing',
   privacy: '/privacy',
   careers: '/careers',
+  contact: '/contact',
   app: '/app'
 }
 
