@@ -6,7 +6,7 @@ const routes = {
   privacy: '/privacy',
   careers: '/careers',
   contact: '/contact',
-  app: '/app'
+  files: '/files'
 }
 
 export default routes

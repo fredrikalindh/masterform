@@ -39,7 +39,8 @@ const App = () => {
           user: resultUser && {
             uid: resultUser.uid,
             email: resultUser.email,
-            displayName: resultUser.displayName
+            displayName: resultUser.displayName,
+            avatarUrl: resultUser.photoURL
           }
         })
       }),
@@ -93,10 +94,10 @@ const App = () => {
         color='primary'
       />
       <Switch>
-        <Route path={routes.app}>
+        <Route path={routes.files}>
           <Dashboard />
         </Route>
-        <Redirect to={routes.app} />
+        <Redirect to={routes.files} />
       </Switch>
     </>
   )

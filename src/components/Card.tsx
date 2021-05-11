@@ -1,56 +1,46 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import Card from '@material-ui/core/Card'
+import CardActionArea from '@material-ui/core/CardActionArea'
 import CardActions from '@material-ui/core/CardActions'
 import CardContent from '@material-ui/core/CardContent'
+import CardMedia from '@material-ui/core/CardMedia'
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
+import InsertDriveFileIcon from '@material-ui/icons/InsertDriveFileOutlined'
 
 const useStyles = makeStyles({
   root: {
-    minWidth: 275
-  },
-  bullet: {
-    display: 'inline-block',
-    margin: '0 2px',
-    transform: 'scale(0.8)'
-  },
-  title: {
-    fontSize: 14
-  },
-  pos: {
-    marginBottom: 12
+    maxWidth: 280
   }
 })
 
-export default function SimpleCard() {
+export default function ImgMediaCard() {
   const classes = useStyles()
-  const bull = <span className={classes.bullet}>•</span>
 
   return (
     <Card className={classes.root}>
-      <CardContent>
-        <Typography
-          className={classes.title}
-          color='textSecondary'
-          gutterBottom
-        >
-          Word of the Day
-        </Typography>
-        <Typography variant='h5' component='h2'>
-          be{bull}nev{bull}o{bull}lent
-        </Typography>
-        <Typography className={classes.pos} color='textSecondary'>
-          adjective
-        </Typography>
-        <Typography variant='body2' component='p'>
-          well meaning and kindly.
-          <br />
-          {'"a benevolent smile"'}
-        </Typography>
-      </CardContent>
+      <CardActionArea>
+        <CardMedia
+          component='img'
+          alt='Placeholder image'
+          height='180'
+          image='https://cdn.sanity.io/images/599r6htc/production/07cce9f0be376dd01542c9fd53c07c5721ab7fa5-750x366.gif?w=750&q=75&fit=max&auto=format&dpr=2'
+          title='Placeholder image'
+        />
+        <CardContent>
+          <Typography gutterBottom variant='h5' component='h2'>
+            Untitled
+          </Typography>
+        </CardContent>
+      </CardActionArea>
       <CardActions>
-        <Button size='small'>Learn More</Button>
+        <Button size='small' color='primary'>
+          Share
+        </Button>
+        <Button size='small' color='primary'>
+          Learn More
+        </Button>
       </CardActions>
     </Card>
   )

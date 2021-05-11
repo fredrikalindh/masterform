@@ -20,6 +20,7 @@ import { Link } from 'react-router-dom'
 import MenuIcon from '@material-ui/icons/Menu'
 
 import { auth } from '../firebase'
+import Settings from './Settings'
 
 type Props = {
   title?: string
@@ -37,6 +38,11 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     title: {
       flexGrow: 1
+    },
+    paper: {
+      marginTop: 35,
+      backgroundColor: theme.palette.grey[800],
+      color: '#fff'
     }
   })
 )
@@ -44,7 +50,10 @@ const useStyles = makeStyles((theme: Theme) =>
 const AppBar = (props: Props) => {
   const classes = useStyles()
 
+  const [settingsDialog, setSettingsDialog] = useState(false)
+
   const [anchorEl, setAnchorEl] = useState<any>(null)
+
   const open = Boolean(anchorEl)
 
   const handleMenu = (event: any) => {
@@ -59,63 +68,80 @@ const AppBar = (props: Props) => {
   })
 
   return (
-    <MaterialAppBar
-      elevation={trigger ? 4 : 0}
-      position='sticky'
-      color='secondary'
-      className={classes.root}
-    >
-      <Toolbar>
-        {props.backTo && (
-          <IconButton
-            component={Link}
-            to={props.backTo}
-            color='inherit'
-            edge='start'
-          >
-            <ArrowBackIcon titleAccess='Navigate Back' />
-          </IconButton>
-        )}
-        {!props.backTo && (
+    <>
+      <MaterialAppBar
+        elevation={trigger ? 4 : 0}
+        position='sticky'
+        color='secondary'
+        className={classes.root}
+      >
+        <Toolbar variant='dense'>
+          {props.backTo && (
+            <IconButton
+              component={Link}
+              to={props.backTo}
+              color='inherit'
+              edge='start'
+            >
+              <ArrowBackIcon titleAccess='Navigate Back' />
+            </IconButton>
+          )}
+          {/* {!props.backTo && (
           <IconButton edge='start' color='inherit' aria-label='menu'>
             <MenuIcon />
           </IconButton>
-        )}
-        <Box ml={3} flex='auto'>
-          <Typography variant='h6'>masterform</Typography>
-        </Box>
-        <div>
-          <IconButton
-            aria-label='account of current user'
-            aria-controls='menu-appbar'
-            aria-haspopup='true'
-            onClick={handleMenu}
-            color='inherit'
-          >
-            <AccountCircle />
-          </IconButton>
-          <Menu
-            id='menu-appbar'
-            anchorEl={anchorEl}
-            anchorOrigin={{
-              vertical: 'top',
-              horizontal: 'right'
-            }}
-            keepMounted
-            transformOrigin={{
-              vertical: 'top',
-              horizontal: 'right'
-            }}
-            open={open}
-            onClose={handleClose}
-          >
-            <MenuItem onClick={handleClose}>Profile</MenuItem>
-            <MenuItem onClick={handleClose}>My account</MenuItem>
-            <MenuItem onClick={() => auth.signOut()}>Sign Out</MenuItem>
-          </Menu>
-        </div>
-      </Toolbar>
-    </MaterialAppBar>
+        )} */}
+          <Box ml={3} flex='auto'>
+            {/* <ExpandableSearch placeholder="Search..." onChangeValue={(val) => console.log(val)} /> */}
+            {/* <Typography variant='h6'>masterform</Typography> */}
+          </Box>
+          <div>
+            <IconButton
+              aria-label='account of current user'
+              aria-controls='menu-appbar'
+              aria-haspopup='true'
+              onClick={handleMenu}
+              color='inherit'
+            >
+              <AccountCircle />
+            </IconButton>
+            <Menu
+              id='menu-appbar'
+              anchorEl={anchorEl}
+              anchorOrigin={{
+                vertical: 'top',
+                horizontal: 'right'
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'right'
+              }}
+              classes={{
+                paper: classes.paper
+              }}
+              open={open}
+              onClose={handleClose}
+            >
+              <MenuItem onClick={handleClose}>Profile</MenuItem>
+              <MenuItem
+                onClick={() => {
+                  handleClose()
+                  setSettingsDialog(true)
+                }}
+              >
+                Settings
+              </MenuItem>
+              <MenuItem onClick={() => auth.signOut()}>Sign Out</MenuItem>
+            </Menu>
+          </div>
+        </Toolbar>
+      </MaterialAppBar>
+      <Settings
+        open={settingsDialog}
+        onClose={() => setSettingsDialog(false)}
+      />
+    </>
   )
 }
 

@@ -9,6 +9,7 @@ export const sessionState = atom<{
     uid: string
     email: string | null
     displayName: string | null
+    avatarUrl: string | null
   } | null
   isAuthenticating: boolean
 }>({
