@@ -24,6 +24,8 @@ import Box from '@material-ui/core/Box'
 import Container from '@material-ui/core/Container'
 import Snackbar from '@material-ui/core/Snackbar'
 import Dashboard from './Dashboard'
+import EditFile from './EditFile'
+import MultiSlideForm from './MultiSlideForm'
 
 const App = () => {
   const [session, setSession] = useRecoilState(sessionState)
@@ -94,9 +96,9 @@ const App = () => {
         color='primary'
       />
       <Switch>
-        <Route path={routes.files}>
-          <Dashboard />
-        </Route>
+        <Route path={routes.files} children={<Dashboard />} />
+        <Route path={routes.file} children={<EditFile />} />
+        <Route path={routes.preview} children={<MultiSlideForm />} />
         <Redirect to={routes.files} />
       </Switch>
     </>
