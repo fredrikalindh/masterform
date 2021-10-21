@@ -10,8 +10,8 @@ type Props = {
 const Wrapper = ({
   children,
   maxWidth = 'md',
-  marginTop = 3,
-  marginBottom = 5
+  marginTop = 20,
+  marginBottom = 20
 }: Props) => {
   return (
     <Container maxWidth={maxWidth}>
